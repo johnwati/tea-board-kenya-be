@@ -1,0 +1,18 @@
+version: '3'
+services:
+  com-wati-users-auth-service:
+    image: savoirms/com.wati.tea.board.core:latest
+    container_name: com-wati-tea-board-service
+    ports:
+      - "8106:8106"
+    networks:
+      - mynetwork
+    volumes:
+      - .:/path/in/container
+    environment:
+      - KEY=VALUE
+    restart: always
+
+networks:
+  mynetwork:
+    driver: bridge
