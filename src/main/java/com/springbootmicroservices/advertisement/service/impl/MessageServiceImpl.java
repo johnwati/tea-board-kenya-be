@@ -36,8 +36,8 @@ public class MessageServiceImpl implements MessageService {
         LOGGER.info("MessageServiceImpl | sendMessage | Sending message through RabbitMq");
 
         try {
-            rabbitTemplate.convertAndSend(queue.getName(),advertisementDto);
-        }catch (Exception e){
+            rabbitTemplate.convertAndSend(queue.getName(), advertisementDto);
+        } catch (Exception e) {
             LOGGER.info("MessageServiceImpl | sendMessage | error : " + e.getMessage());
         }
     }

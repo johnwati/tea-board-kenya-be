@@ -18,7 +18,6 @@ public class TeaCultivarController {
     private TeaCultivarService teaCultivarService;
 
 
-
     // Create a new tea cultivar
     @PostMapping
     public TeaCultivar createTeaCultivar(@RequestBody TeaCultivar teaCultivar) {

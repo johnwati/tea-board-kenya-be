@@ -1,16 +1,29 @@
+#FROM openjdk:17-jdk-slim-buster
+#WORKDIR /app
+#
+##COPY app/build/lib/* build/lib/
+##
+##COPY app/build/libs/app.jar build/
+##
+##WORKDIR /app/build
+#
+#VOLUME /tmp
+#EXPOSE 8106
+#ARG JAR_FILE=target/*.jar
+#COPY ${JAR_FILE} app.jar
+#ENTRYPOINT java -jar app.jar
 
-
+# Use the official OpenJDK base image with Java 17
+#FROM openjdk:17-jdk-alpine
 FROM openjdk:17-jdk-slim-buster
+# Set the working directory in the container
 WORKDIR /app
 
-#COPY app/build/lib/* build/lib/
-#
-#COPY app/build/libs/app.jar build/
-#
-#WORKDIR /app/build
+# Copy the executable jar file into the container at /app
+COPY target/*.jar /app/app.jar
 
-VOLUME /tmp
+# Expose the port that the application runs on
 EXPOSE 8106
-ARG JAR_FILE=target/*.jar
-COPY ${JAR_FILE} app.jar
-ENTRYPOINT java -jar app.jar
+
+# Specify the command to run on container start
+CMD ["java", "-jar", "/app/app.jar"]

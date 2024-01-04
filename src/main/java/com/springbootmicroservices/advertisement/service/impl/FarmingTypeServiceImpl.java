@@ -56,15 +56,15 @@ public class FarmingTypeServiceImpl implements FarmingTypeService {
     @Override
     public FarmingType createOrUpdateFarmingType(String farmingTypeName) {
         // Check if the FarmingType already exists
-        Optional<FarmingType> existingFarmingType = farmingTypeRepository.findByFarmingTypeNameContainingIgnoreCase(farmingTypeName);
+        List<FarmingType> existingFarmingType = farmingTypeRepository.findFirstByFarmingTypeNameContainingIgnoreCase(farmingTypeName);
 
-        if (existingFarmingType.isPresent()) {
+        if (existingFarmingType.size() > 0) {
             // Update the existing FarmingType if found
-            FarmingType foundFarmingType = existingFarmingType.get();
+            FarmingType foundFarmingType = existingFarmingType.get(0);
             // Update any fields if needed
             // foundFarmingType.setFieldToUpdate(newValue);
 
-            return farmingTypeRepository.save(foundFarmingType);
+            return foundFarmingType;
         } else {
             // Create a new FarmingType if it doesn't exist
             FarmingType newFarmingType = new FarmingType();

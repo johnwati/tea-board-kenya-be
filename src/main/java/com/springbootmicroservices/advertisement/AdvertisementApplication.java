@@ -8,14 +8,14 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Collections;
 import java.util.List;
-
+@EnableScheduling
 @SpringBootApplication
 @EnableEurekaClient
-@ComponentScan("com.springbootmicroservices.advertisement")
 public class AdvertisementApplication {
 
     public static void main(String[] args) {
@@ -27,9 +27,9 @@ public class AdvertisementApplication {
     public RestTemplate getRestTemplate() {
         RestTemplate template = new RestTemplate();
         List<ClientHttpRequestInterceptor> interceptors = template.getInterceptors();
-        if (interceptors.isEmpty()){
+        if (interceptors.isEmpty()) {
             template.setInterceptors(Collections.singletonList(new UserContextInterceptor()));
-        }else{
+        } else {
             interceptors.add(new UserContextInterceptor());
             template.setInterceptors(interceptors);
         }

@@ -21,7 +21,7 @@ public class UserAdvertisementController {
     private final AdvertisementService advertiseService;
 
     @GetMapping("/alladvertisements")
-    public ResponseEntity<List<Advertisement>> getAllAdvertisements(){
+    public ResponseEntity<List<Advertisement>> getAllAdvertisements() {
 
         LOGGER.info("UserAdvertisementController | getAllAdvertisements is started");
 
@@ -31,7 +31,7 @@ public class UserAdvertisementController {
     }
 
     @GetMapping("/advertisement/{advertisementId}")
-    public ResponseEntity<Advertisement> getAdvertisementById(@PathVariable String advertisementId){
+    public ResponseEntity<Advertisement> getAdvertisementById(@PathVariable String advertisementId) {
 
         LOGGER.info("UserAdvertisementController | getAdvertisementById is started");
 

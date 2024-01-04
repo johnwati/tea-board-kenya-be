@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -13,5 +14,7 @@ public interface WardRepository extends JpaRepository<Ward, Long> {
     Page<Ward> findByWardNameContainingIgnoreCase(String wardName, Pageable pageable);
 
     Optional<Ward> findByWardNameContainingIgnoreCase(String wardName);
+
+    List<Ward> findFirstByWardNameContainingIgnoreCase(String wardName);
 }
 

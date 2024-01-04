@@ -56,7 +56,7 @@ public class TeaVarietyServiceImpl implements TeaVarietyService {
     @Override
     public TeaVariety createOrUpdateTeaVariety(String teaVarietyName) {
         // Check if the TeaVariety already exists
-        Optional<TeaVariety> existingTeaVariety = Optional.ofNullable(teaVarietyRepository.findByVarietyNameContainingIgnoreCase(teaVarietyName));
+        Optional<TeaVariety> existingTeaVariety = Optional.ofNullable(teaVarietyRepository.findFirstByVarietyNameContainingIgnoreCase(teaVarietyName));
 
         if (existingTeaVariety.isPresent()) {
             // Update the existing TeaVariety if found

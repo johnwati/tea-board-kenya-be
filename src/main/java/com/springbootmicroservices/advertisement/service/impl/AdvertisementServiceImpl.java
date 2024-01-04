@@ -32,8 +32,8 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 
         LOGGER.info("AdvertisementServiceImpl | getAllAdvertisements | advertiseList size : " + advertiseList.size());
 
-        advertiseList.stream().filter(advertisement-> advertisement.getState() == AdvertisementState.APPROVED).forEach(
-                advertisement -> advertisement.setViewCount(advertisement.getViewCount()+1));
+        advertiseList.stream().filter(advertisement -> advertisement.getState() == AdvertisementState.APPROVED).forEach(
+                advertisement -> advertisement.setViewCount(advertisement.getViewCount() + 1));
 
         LOGGER.info("AdvertisementServiceImpl | getAllAdvertisements | advertiseList size : " + advertiseList.size());
 
@@ -51,7 +51,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 
         LOGGER.info("AdvertisementServiceImpl | getAdvertisementById | advertisement title : " + advertisement.getTitle());
 
-        advertisement.setViewCount(advertisement.getViewCount()+1);
+        advertisement.setViewCount(advertisement.getViewCount() + 1);
 
         return advertisement;
     }

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class AdvertisementMapper {
 
-    public static Advertisement advertisementRequestToAdvertisement(AdvertisementRequest advertisementRequest){
+    public static Advertisement advertisementRequestToAdvertisement(AdvertisementRequest advertisementRequest) {
         Advertisement advertisement = new Advertisement();
         advertisement.setPrice(advertisementRequest.getPrice());
         advertisement.setTitle(advertisementRequest.getTitle());

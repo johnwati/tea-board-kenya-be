@@ -35,6 +35,7 @@ public class TeaFarmerDTO {
     private Integer totalFertilizerPerYearAcre;
     private BigDecimal averageAnnualTeaProduction;
     private String dateGreenLeafAgreementSigned;
+    private String cultivarName;
     private Coordinates coordinates;
     private Long factoryId;
     private Long wardId;

@@ -56,10 +56,10 @@ public class AdminServiceImpl implements AdminService {
 
         LOGGER.info("AdminServiceImpl | updateAdvertisement | updatedAdvertisement title : " + updatedAdvertisement.getTitle());
 
-        if (updatedAdvertisement.getPrice() != advertisementRequest.getPrice()){
+        if (updatedAdvertisement.getPrice() != advertisementRequest.getPrice()) {
             updatedAdvertisement.setPrice(advertisementRequest.getPrice());
         }
-        if (updatedAdvertisement.getTitle() != advertisementRequest.getTitle()){
+        if (updatedAdvertisement.getTitle() != advertisementRequest.getTitle()) {
             updatedAdvertisement.setTitle(advertisementRequest.getTitle());
         }
 

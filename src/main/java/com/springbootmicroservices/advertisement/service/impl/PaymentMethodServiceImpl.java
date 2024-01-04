@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PaymentMethodServiceImpl implements PaymentMethodService {
@@ -54,6 +55,22 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
 
     @Override
     public PaymentMethod createOrUpdatePaymentMethod(String paymentMethodName) {
-        return null;
+        // Check if the FarmingType already exists
+//        Optional<PaymentMethod> existingFarmingType = paymentMethodRepository.findFistByPaymentMethodNameContainingIgnoreCase(paymentMethodName);
+        List<PaymentMethod> paymentMethods = paymentMethodRepository.findByPaymentMethodNameContainingIgnoreCase(paymentMethodName);
+
+        if (!paymentMethods.isEmpty()) {
+//            PaymentMethod foundPaymentMethod = paymentMethods.get(0);
+            // Update the existing FarmingType if found
+            PaymentMethod foundFarmingType = paymentMethods.get(0);
+            // Update any fields if needed
+            // foundFarmingType.setFieldToUpdate(newValue);
+            return foundFarmingType;
+        } else {
+            // Create a new FarmingType if it doesn't exist
+            PaymentMethod newFarmingType = new PaymentMethod();
+            newFarmingType.setPaymentMethodName(paymentMethodName);
+            return paymentMethodRepository.save(newFarmingType);
+        }
     }
 }

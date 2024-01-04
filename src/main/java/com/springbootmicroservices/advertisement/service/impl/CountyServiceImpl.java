@@ -58,14 +58,11 @@ public class CountyServiceImpl implements CountyService {
     @Override
     public County createOrUpdateCounty(String countyName, Region region) {
         // Check if the County already exists
-        Optional<County> existingCounty = countyRepository.findByCountyNameContainingIgnoreCase(countyName);
+        List<County> existingCounty = countyRepository.findFirstByCountyNameContainingIgnoreCase(countyName);
 
-        if (existingCounty.isPresent()) {
-            // Update the existing County if found
-            County foundCounty = existingCounty.get();
-            // Update any fields if needed
-            // foundCounty.setFieldToUpdate(newValue);
-            return countyRepository.save(foundCounty);
+        if (existingCounty.size() > 0) {
+            County foundCounty = existingCounty.get(0);
+            return foundCounty;
         } else {
             // Create a new County if it doesn't exist
             County newCounty = new County();

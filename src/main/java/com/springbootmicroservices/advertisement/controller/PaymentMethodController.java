@@ -9,14 +9,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 @CrossOrigin // Allow all origins for all methods in this controller
 @RestController
 @RequestMapping("/paymentmethods")
 public class PaymentMethodController {
     @Autowired
     private PaymentMethodService paymentMethodService;
-
-
 
 
     // Create a new payment method

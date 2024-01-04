@@ -18,7 +18,6 @@ public class TeaVarietyController {
     private TeaVarietyService teaVarietyService;
 
 
-
     // Create a new tea variety
     @PostMapping
     public TeaVariety createTeaVariety(@RequestBody TeaVariety teaVariety) {

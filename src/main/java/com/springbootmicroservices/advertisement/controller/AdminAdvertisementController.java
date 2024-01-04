@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 @CrossOrigin // Allow all origins for all methods in this controller
 @RestController
 @RequestMapping("/api/v1/tea-board")
@@ -24,11 +25,11 @@ public class AdminAdvertisementController {
     private final AdminService adminService;
 
     @PostMapping("/create/{userId}")
-    public ResponseEntity<?> createAdvertisement(@RequestBody AdvertisementRequest advertisementRequest, @PathVariable String userId){
+    public ResponseEntity<?> createAdvertisement(@RequestBody AdvertisementRequest advertisementRequest, @PathVariable String userId) {
 
         LOGGER.info("AdminAdvertisementController | createAdvertisement is started");
 
-        adminService.createAdvertisement(advertisementRequest,userId);
+        adminService.createAdvertisement(advertisementRequest, userId);
 
         LOGGER.info("AdminAdvertisementController | createAdvertisement | Advertisement Created");
 
@@ -36,13 +37,13 @@ public class AdminAdvertisementController {
     }
 
     @PutMapping("/update/{advertisementId}")
-    public ResponseEntity<?> updateAdvertisement(@RequestBody AdvertisementRequest advertisementRequest ,@PathVariable String advertisementId){
+    public ResponseEntity<?> updateAdvertisement(@RequestBody AdvertisementRequest advertisementRequest, @PathVariable String advertisementId) {
 
         LOGGER.info("AdminAdvertisementController | updateAdvertisement is started");
 
         LOGGER.info("AdminAdvertisementController | updateAdvertisement | advertisementId : " + advertisementId);
 
-        adminService.updateAdvertisement(advertisementRequest,advertisementId);
+        adminService.updateAdvertisement(advertisementRequest, advertisementId);
 
         LOGGER.info("AdminAdvertisementController | createAdvertisement | Advertisement Created");
 
@@ -50,7 +51,7 @@ public class AdminAdvertisementController {
     }
 
     @DeleteMapping("/delete/{advertisementId}")
-    public ResponseEntity<?> deleteAdvertise(@PathVariable String advertisementId){
+    public ResponseEntity<?> deleteAdvertise(@PathVariable String advertisementId) {
 
         LOGGER.info("AdminAdvertisementController | updateAdvertisement is started");
 
@@ -64,7 +65,7 @@ public class AdminAdvertisementController {
     }
 
     @GetMapping("/alladvertisements")
-    public ResponseEntity<List<Advertisement>> getAllAdvertisements(){
+    public ResponseEntity<List<Advertisement>> getAllAdvertisements() {
 
         LOGGER.info("AdminAdvertisementController | getAllAdvertisements is started");
 
@@ -72,7 +73,7 @@ public class AdminAdvertisementController {
     }
 
     @GetMapping("/advertisement/{advertisementId}")
-    public ResponseEntity<Advertisement> getAdvertisementById(@PathVariable String advertisementId){
+    public ResponseEntity<Advertisement> getAdvertisementById(@PathVariable String advertisementId) {
 
         LOGGER.info("AdminAdvertisementController | getAdvertisementById is started");
 
@@ -82,16 +83,16 @@ public class AdminAdvertisementController {
     }
 
     @GetMapping("/advertisement/{advertisementId}/approve")
-    public ResponseEntity<?> approveAdvertisement(@PathVariable String advertisementId){
+    public ResponseEntity<?> approveAdvertisement(@PathVariable String advertisementId) {
 
         LOGGER.info("AdminAdvertisementController | approveAdvertisement is started");
 
         LOGGER.info("AdminAdvertisementController | approveAdvertisement | getAdvertisementById " + advertisementId);
 
         Advertisement advertisement = null;
-        try{
+        try {
             advertisement = adminService.approveAdvertisement(advertisementId);
-        }catch (Exception e){
+        } catch (Exception e) {
             LOGGER.info("AdminAdvertisementController | approveAdvertisement | error " + e.getMessage());
         }
 
@@ -101,16 +102,16 @@ public class AdminAdvertisementController {
     }
 
     @GetMapping("/advertisement/{advertisementId}/reject")
-    public ResponseEntity<?> rejectAdvertisement(@PathVariable String advertisementId){
+    public ResponseEntity<?> rejectAdvertisement(@PathVariable String advertisementId) {
 
         LOGGER.info("AdminAdvertisementController | rejectAdvertisement is started");
 
         LOGGER.info("AdminAdvertisementController | rejectAdvertisement | getAdvertisementById " + advertisementId);
 
         Advertisement advertisement = null;
-        try{
+        try {
             advertisement = adminService.rejectAdvertisement(advertisementId);
-        }catch (Exception e){
+        } catch (Exception e) {
             LOGGER.info("AdminAdvertisementController | rejectAdvertisement | error " + e.getMessage());
         }
 

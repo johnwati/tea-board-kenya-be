@@ -1,4 +1,5 @@
 package com.springbootmicroservices.advertisement.controller;
+
 import com.springbootmicroservices.advertisement.entity.Region;
 import com.springbootmicroservices.advertisement.service.RegionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 @CrossOrigin // Allow all origins for all methods in this controller
 @RestController
 @RequestMapping("/regions")

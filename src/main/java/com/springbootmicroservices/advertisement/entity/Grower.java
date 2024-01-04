@@ -4,8 +4,6 @@ import com.springbootmicroservices.advertisement.dto.TeaFarmingImportDTO;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
 @Data
 @Entity
@@ -105,56 +103,8 @@ public class Grower {
     @Column(name = "date_greenleaf_agreement_signed")
     private String dateGreenleafAgreementSigned;
 
-    // Constructors (if needed)
-
-    // Getters and setters for all fields
-
-    @Override
-    public String toString() {
-        return "Grower{" +
-                "id=" + id +
-                ", growerNumber='" + growerNumber + '\'' +
-                ", growerName='" + growerName + '\'' +
-                // ... other fields
-                '}';
-    }
+    @Column(name = "processed")
+    private boolean processed = false;
 
 
-    public  TeaFarmingImportDTO mapGrowerToDTO() {
-        Grower grower = this;
-        TeaFarmingImportDTO dto = new TeaFarmingImportDTO();
-        dto.setGrowerNumber(grower.getGrowerNumber());
-        dto.setGrowerName(grower.getGrowerName());
-        dto.setBuyingCentre(grower.getBuyingCentre());
-        dto.setNationalId(grower.getNationalId());
-        dto.setGrowerGroup(grower.getGrowerGroup());
-        dto.setCompanyRegistrationCertificateNo(grower.getCompanyRegistrationCertificateNo());
-        dto.setCompanyPin(grower.getCompanyPin());
-        dto.setGender(grower.getGender());
-        dto.setEmail(grower.getEmail());
-        dto.setTelNumber(grower.getTelNumber());
-        dto.setLandRegistrationNo(grower.getLandRegistrationNo());
-        dto.setTotalLandAreaAcres(String.valueOf(grower.getTotalLandAreaAcres()));
-        dto.setFactoryName(grower.getFactory());
-        dto.setWardName(grower.getWardLocation());
-        dto.setSubCountyName(grower.getSubCounty());
-        dto.setCountyName(grower.getCounty());
-        dto.setRegionName(grower.getRegion());
-        dto.setTeaVarietiesCultivated(grower.getTeaVarietiesCultivated());
-        dto.setTeaCultivationAreaAcres(String.valueOf(grower.getTeaCultivationAreaAcres()));
-        dto.setTeaVarietyName(grower.getTeaVarietiesCultivated());
-        dto.setTeaCultivarName(grower.getTeaCultivars());
-        dto.setTotalTeaBushes(String.valueOf(grower.getTotalTeaBushes()));
-        dto.setAgeOfTeaBushYears(String.valueOf(grower.getAgeOfTeaBushYears()));
-        dto.setProductivityPerBushYear(String.valueOf(grower.getProductivityPerBushKgPerYear()));
-        dto.setFarmingTypeName(grower.getTypeOfFarming());
-        dto.setMembershipInTeaAssociation(grower.getMembershipInTeaAssociation());
-        dto.setTotalFertilizerPerYearAcre(String.valueOf(grower.getTotalFertilizerPerYearPerAcre()));
-        dto.setAverageAnnualTeaProduction(String.valueOf(grower.getAverageAnnualTeaProductionKgPerAcre()));
-        dto.setPaymentMethodName(grower.getPaymentMethod());
-        dto.setDateGreenLeafAgreementSigned(grower.getDateGreenleafAgreementSigned());
-
-
-        return dto;
-    }
 }

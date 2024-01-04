@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Data;
 
 import javax.persistence.*;
+
 @Data
 @Entity
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)

@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -14,4 +15,6 @@ public interface CountyRepository extends JpaRepository<County, Long> {
     Page<County> findByCountyNameContainingIgnoreCase(String keyword, Pageable pageable);
 
     Optional<County> findByCountyNameContainingIgnoreCase(String countyName);
+
+    List<County> findFirstByCountyNameContainingIgnoreCase(String countyName);
 }

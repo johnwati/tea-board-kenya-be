@@ -15,7 +15,7 @@ import java.util.List;
 @RequestMapping("/factories")
 public class FactoryController {
     @Autowired
-    private FactoryService factoryService;
+    private final FactoryService factoryService;
 
     public FactoryController(FactoryService factoryService) {
         this.factoryService = factoryService;

@@ -9,5 +9,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TeaVarietyRepository extends JpaRepository<TeaVariety, Long> {
     Page<TeaVariety> findByVarietyNameContainingIgnoreCase(String varietyName, Pageable pageable);
+
     TeaVariety findByVarietyNameContainingIgnoreCase(String varietyName);
+
+    TeaVariety findFirstByVarietyNameContainingIgnoreCase(String teaVarietyName);
 }

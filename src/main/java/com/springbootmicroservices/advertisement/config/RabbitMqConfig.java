@@ -35,11 +35,12 @@ public class RabbitMqConfig {
     }
 
     @Bean
-    DirectExchange directExchange(){
+    DirectExchange directExchange() {
         return new DirectExchange(topicExchangeName);
     }
+
     @Bean
-    Binding binding(Queue queue, DirectExchange directExchange){
+    Binding binding(Queue queue, DirectExchange directExchange) {
         return BindingBuilder.bind(queue).to(directExchange).with(routingName);
     }
 

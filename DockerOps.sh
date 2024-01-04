@@ -27,3 +27,6 @@ ssh "$SSH_USER"@"$SERVER_IP" << EOF
   docker compose up -d
   docker-compose ps  # Check the status of Docker containers after starting them
 EOF
+
+
+/www/wwwroot/tbk.com

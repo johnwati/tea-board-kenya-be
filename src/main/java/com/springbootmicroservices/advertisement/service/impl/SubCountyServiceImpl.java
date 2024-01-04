@@ -56,14 +56,10 @@ public class SubCountyServiceImpl implements SubCountyService {
     @Override
     public SubCounty createOrUpdateSubCounty(String subCountyName, County county) {
         // Check if the SubCounty already exists for the given County
-        Optional<SubCounty> existingSubCounty = subCountyRepository.findBySubCountyNameContainingIgnoreCase(subCountyName);
+        List<SubCounty> existingSubCounty = subCountyRepository.findFirstBySubCountyNameContainingIgnoreCase(subCountyName);
 
-        if (existingSubCounty.isPresent()) {
-            // Update the existing SubCounty if found
-            SubCounty foundSubCounty = existingSubCounty.get();
-            // Update any fields if needed
-            // foundSubCounty.setFieldToUpdate(newValue);
-            return subCountyRepository.save(foundSubCounty);
+        if (existingSubCounty.size() > 0) {
+            return existingSubCounty.get(0);
         } else {
             // Create a new SubCounty if it doesn't exist
             SubCounty newSubCounty = new SubCounty();

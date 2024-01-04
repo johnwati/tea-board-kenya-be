@@ -55,15 +55,10 @@ public class RegionServiceImpl implements RegionService {
     @Override
     public Region createOrUpdateRegion(String regionName) {
         // Check if the Region already exists
-        Optional<Region> existingRegion = regionRepository.findByRegionNameContainingIgnoreCase(regionName);
+        List<Region> existingRegion = regionRepository.findByRegionNameContainingIgnoreCase(regionName);
 
-        if (existingRegion.isPresent()) {
-            // Update the existing Region if found
-            Region foundRegion = existingRegion.get();
-            // Update any fields if needed
-            // foundRegion.setFieldToUpdate(newValue);
-
-            return regionRepository.save(foundRegion);
+        if (!existingRegion.isEmpty()) {
+            return existingRegion.get(0);
         } else {
             // Create a new Region if it doesn't exist
             Region newRegion = new Region();

@@ -20,7 +20,7 @@ public class UserContextFilter implements Filter {
 
         HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
 
-        UserContextHolder.getContext().setCorrelationId(  httpServletRequest.getHeader(UserContext.CORRELATION_ID));
+        UserContextHolder.getContext().setCorrelationId(httpServletRequest.getHeader(UserContext.CORRELATION_ID));
         UserContextHolder.getContext().setAccessToken(httpServletRequest.getHeader(UserContext.AUTH_TOKEN));
 
         LOGGER.info("Management Service | UserContextFilter | doFilter | User Service Incoming Correlation id: {} | Auth Token : {}",
@@ -32,8 +32,10 @@ public class UserContextFilter implements Filter {
     }
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {}
+    public void init(FilterConfig filterConfig) throws ServletException {
+    }
 
     @Override
-    public void destroy() {}
+    public void destroy() {
+    }
 }

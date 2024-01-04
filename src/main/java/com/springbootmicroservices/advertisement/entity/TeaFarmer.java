@@ -6,13 +6,19 @@ import com.springbootmicroservices.advertisement.convertor.Coordinates;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Data
 @Entity
+@Table(name = "tea_farmer") // Added @Table annotation with name attribute
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class TeaFarmer {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @Column(name = "growerNumber")
     private String growerNumber;
 
     @Column(name = "GrowerName")
@@ -111,6 +117,15 @@ public class TeaFarmer {
     @Column(name = "DateGreenLeafAgreementSigned")
     private String dateGreenLeafAgreementSigned;
 
+    @Column(name = "arbitration")
+    private String arbitration;
+
+    @Column(name = "arbitrationComment")
+    private String arbitrationComment;
+
     @Embedded
     private Coordinates coordinates;
+
+    @Column(name = "date_created")
+    private LocalDate date_created = LocalDate.now();
 }

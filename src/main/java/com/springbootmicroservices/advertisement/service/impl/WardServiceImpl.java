@@ -56,15 +56,10 @@ public class WardServiceImpl implements WardService {
     @Override
     public Ward createOrUpdateWard(String wardName, SubCounty subCounty) {
         // Check if the Ward already exists for the given SubCounty
-        Optional<Ward> existingWard = wardRepository.findByWardNameContainingIgnoreCase(wardName);
+        List<Ward> existingWard = wardRepository.findFirstByWardNameContainingIgnoreCase(wardName);
 
-        if (existingWard.isPresent()) {
-            // Update the existing Ward if found
-            Ward foundWard = existingWard.get();
-            // Update any fields if needed
-            // foundWard.setFieldToUpdate(newValue);
-
-            return wardRepository.save(foundWard);
+        if (!existingWard.isEmpty()) {
+            return existingWard.get(0);
         } else {
             // Create a new Ward if it doesn't exist
             Ward newWard = new Ward();

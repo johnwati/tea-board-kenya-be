@@ -1,7 +1,6 @@
 package com.springbootmicroservices.advertisement.service.impl;
 
 
-
 import com.springbootmicroservices.advertisement.entity.Factory;
 import com.springbootmicroservices.advertisement.entity.Ward;
 import com.springbootmicroservices.advertisement.repository.FactoryRepository;
@@ -18,7 +17,7 @@ import java.util.Optional;
 @Service
 public class FactoryServiceImpl implements FactoryService {
     @Autowired
-    private FactoryRepository factoryRepository;
+    private final FactoryRepository factoryRepository;
 
     public FactoryServiceImpl(FactoryRepository factoryRepository) {
         this.factoryRepository = factoryRepository;
@@ -47,7 +46,8 @@ public class FactoryServiceImpl implements FactoryService {
 
     @Override
     public Factory updateFactory(Long id, Factory updatedFactory) {
-        if (factoryRepository.existsById(id)) {
+        List<Factory> factory = factoryRepository.findByFactoryNameContaining(cleanInput(updatedFactory.getFactoryName()));
+        if (factoryRepository.existsById(id) || !factory.isEmpty() ) {
             updatedFactory.setFactoryId(id);
             return factoryRepository.save(updatedFactory);
         } else {
@@ -84,12 +84,25 @@ public class FactoryServiceImpl implements FactoryService {
     @Transactional
     @Override
     public Factory createOrUpdateFactory(String factoryName, Ward ward) {
-        Factory factory = factoryRepository.findByFactoryNameContaining(factoryName).stream().findFirst()
-                .orElse(new Factory());
-        factory.setFactoryName(factoryName);
-        factory.setWard(ward);
-        return factoryRepository.save(factory);
+        List<Factory> factory = factoryRepository.findByFactoryNameContaining(cleanInput(factoryName));
+        if(!factory.isEmpty()){
+            return factory.get(0);
+        }else {
+          return   factoryRepository.save(Factory.builder()
+                    .factoryName(cleanInput(factoryName))
+                    .ward(ward)
+                    .build());
+        }
     }
 
+    public  String cleanInput(String input) {
+        // Remove spaces and get text only
+        String cleanedText = input.replaceAll("[^a-zA-Z]", "").toLowerCase();
+
+        // Convert first letter to uppercase
+        cleanedText = cleanedText.substring(0, 1).toUpperCase() + cleanedText.substring(1);
+
+        return cleanedText;
+    }
 }
 

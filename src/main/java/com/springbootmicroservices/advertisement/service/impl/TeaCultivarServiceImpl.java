@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TeaCultivarServiceImpl implements TeaCultivarService {
@@ -53,7 +54,24 @@ public class TeaCultivarServiceImpl implements TeaCultivarService {
 
     @Override
     public TeaCultivar createOrUpdateTeaCultivar(String teaCultivarName) {
-        return null;
+        // Check if the TeaVariety already exists
+//        Optional<TeaCultivar> existingTeaVariety = Optional.ofNullable(teaCultivarRepository.findFistByCultivarNameContainingIgnoreCase(teaCultivarName));
+        List<TeaCultivar> existingTeaVarieties = teaCultivarRepository.findByCultivarNameContainingIgnoreCase(teaCultivarName);
+
+        if (!existingTeaVarieties.isEmpty()) {
+            // Update the existing TeaVariety if found
+            TeaCultivar foundTeaVariety = existingTeaVarieties.get(0);
+            // Update any fields if needed
+            // foundTeaVariety.setFieldToUpdate(newValue);
+
+            return teaCultivarRepository.save(foundTeaVariety);
+        } else {
+            // Create a new TeaVariety if it doesn't exist
+            TeaCultivar teaCultivar = new TeaCultivar();
+            teaCultivar.setCultivarName(teaCultivarName);
+
+            return teaCultivarRepository.save(teaCultivar);
+        }
     }
 }
 

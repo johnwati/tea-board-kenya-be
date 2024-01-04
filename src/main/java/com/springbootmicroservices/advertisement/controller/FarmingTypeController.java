@@ -18,7 +18,6 @@ public class FarmingTypeController {
     private FarmingTypeService farmingTypeService;
 
 
-
     // Create a new farming type
     @PostMapping
     public FarmingType createFarmingType(@RequestBody FarmingType farmingType) {
