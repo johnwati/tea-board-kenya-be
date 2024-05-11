@@ -46,7 +46,7 @@ public class FactoryServiceImpl implements FactoryService {
 
     @Override
     public Factory updateFactory(Long id, Factory updatedFactory) {
-        List<Factory> factory = factoryRepository.findByFactoryNameContaining(cleanInput(updatedFactory.getFactoryName()));
+        List<Factory> factory = factoryRepository.findByFactoryNameContaining((updatedFactory.getFactoryName()));
         if (factoryRepository.existsById(id) || !factory.isEmpty() ) {
             updatedFactory.setFactoryId(id);
             return factoryRepository.save(updatedFactory);
@@ -81,16 +81,30 @@ public class FactoryServiceImpl implements FactoryService {
         return factoryRepository.findByFactoryNameContaining(factoryName, pageable);
     }
 
+
     @Transactional
     @Override
     public Factory createOrUpdateFactory(String factoryName, Ward ward) {
-        List<Factory> factory = factoryRepository.findByFactoryNameContaining(cleanInput(factoryName));
+        List<Factory> factory = factoryRepository.findByFactoryNameContaining((factoryName));
         if(!factory.isEmpty()){
             return factory.get(0);
         }else {
           return   factoryRepository.save(Factory.builder()
-                    .factoryName(cleanInput(factoryName))
-                    .ward(ward)
+                    .factoryName((factoryName))
+                    .build());
+        }
+    }
+
+
+    @Transactional
+    @Override
+    public Factory getOrCreateFactory(String factoryName) {
+        List<Factory> factory = factoryRepository.findByFactoryNameContaining((factoryName));
+        if(!factory.isEmpty()){
+            return factory.get(0);
+        }else {
+            return   factoryRepository.save(Factory.builder()
+                    .factoryName((factoryName))
                     .build());
         }
     }

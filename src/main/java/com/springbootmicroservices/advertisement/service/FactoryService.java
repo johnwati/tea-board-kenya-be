@@ -29,5 +29,6 @@ public interface FactoryService {
     Page<Factory> searchFactoriesByFactoryName(String factoryName, Pageable pageable);
 
     Factory createOrUpdateFactory(String factoryName, Ward ward);
+    Factory getOrCreateFactory(String factoryName);
 }
 

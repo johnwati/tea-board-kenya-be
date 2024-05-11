@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.springbootmicroservices.advertisement.convertor.Coordinates;
 import lombok.Data;
 
+
 import javax.persistence.*;
 import java.time.LocalDate;
 
@@ -16,116 +17,148 @@ public class TeaFarmer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
-    @Column(name = "growerNumber")
+    @Column(name = "Grower_Number")
     private String growerNumber;
 
-    @Column(name = "GrowerName")
+    @Column(name = "Grower_Name")
     private String growerName;
 
-    @Column(name = "BuyingCentre")
-    private String buyingCentre;
-
     @Column(name = "NationalID")
-    private String nationalId;
+    private String nationalID;
 
-    @Column(name = "GrowerGroup")
+    @Column(name = "Grower_Group")
     private String growerGroup;
 
-    @Column(name = "CompanyRegistrationCertificateNo")
+    @Column(name = "Company_Registration_Certificate_No")
     private String companyRegistrationCertificateNo;
 
     @Column(name = "CompanyPIN")
-    private String companyPin;
+    private String companyPIN;
 
     @Column(name = "Gender")
     private String gender;
 
-    @Column(name = "email")
-    private String email;
+    @Column(name = "Date_of_Birth")
+    private String dateOfBirth;
 
-    @Column(name = "TelNumber")
+    @Column(name = "TEl_Number")
     private String telNumber;
 
-    @Column(name = "LandRegistrationNo")
+    @Column(name = "Email")
+    private String email;
+
+    @Column(name = "Land_Registration_No")
     private String landRegistrationNo;
 
-    @Column(name = "TotalLandAreaAcres")
-    private String totalLandAreaAcres;
+    @Column(name = "Total_Land_Area")
+    private String totalLandArea;
 
-    @ManyToOne
-    @JoinColumn(name = "Factory")
-    private Factory factory;
+    @Column(name = "Tea_Cultivation_Area")
+    private String teaCultivationArea;
 
-    @Column(name = "TeaVarietiesCultivated")
+    @Column(name = "Factory")
+    private String factory;
+
+    @Column(name = "Buying_Centre")
+    private String buyingCentre;
+
+    @Column(name = "Ward_Location")
+    private String wardLocation;
+
+    @Column(name = "Sub_County")
+    private String subCounty;
+
+    @Column(name = "County")
+    private String county;
+
+    @Column(name = "Regionid")
+    private String regionId;
+
+    @Column(name = "Tea_Varieties_Cultivated")
     private String teaVarietiesCultivated;
 
-    @Column(name = "TeaCultivationAreaAcres")
-    private String teaCultivationAreaAcres;
+    @Column(name = "Tea_Cultivars")
+    private String teaCultivars;
 
-    @ManyToOne
-    @JoinColumn(name = "WardID")
-    private Ward ward;
-
-    @ManyToOne
-    @JoinColumn(name = "SubCountyID")
-    private SubCounty subCounty;
-
-    @ManyToOne
-    @JoinColumn(name = "CountyID")
-    private County county;
-
-    @ManyToOne
-    @JoinColumn(name = "RegionID")
-    private Region region;
-
-    @ManyToOne
-    @JoinColumn(name = "TeaVarietyID")
-    private TeaVariety teaVariety;
-
-    @ManyToOne
-    @JoinColumn(name = "TeaCultivarID")
-    private TeaCultivar teaCultivar;
-
-    @Column(name = "TotalTeaBushes")
+    @Column(name = "Total_Tea_Bushes")
     private String totalTeaBushes;
 
-    @Column(name = "AgeOfTeaBushYears")
-    private String ageOfTeaBushYears;
+    @Column(name = "Age_of_the_Tea_Bush")
+    private String ageOfTheTeaBush;
 
-    @Column(name = "ProductivityPerBushYear")
-    private String productivityPerBushYear;
+    @Column(name = "Productivity_per_Bush")
+    private String productivityPerBush;
 
-    @ManyToOne
-    @JoinColumn(name = "FarmingTypeID")
-    private FarmingType farmingType;
+    @Column(name = "Type_of_Farming")
+    private String typeOfFarming;
 
-    @Column(name = "MembershipInTeaAssociation")
+    @Column(name = "Membership_in_Tea_Association")
     private String membershipInTeaAssociation;
 
-    @Column(name = "TotalFertilizerPerYearAcre")
+    @Column(name = "Total_Fertilizer_Per_Year_Acre")
     private String totalFertilizerPerYearAcre;
 
-    @Column(name = "AverageAnnualTeaProduction")
+    @Column(name = "Average_Annual_Tea_Production")
     private String averageAnnualTeaProduction;
 
-    @ManyToOne
-    @JoinColumn(name = "PaymentMethodID")
-    private PaymentMethod paymentMethod;
+    @Column(name = "Payment_Method")
+    private String paymentMethod;
 
-    @Column(name = "DateGreenLeafAgreementSigned")
-    private String dateGreenLeafAgreementSigned;
+    @Column(name = "Date_Greenleaf_Agreement_Signed")
+    private String dateGreenleafAgreementSigned;
+
+    @Column(name = "age_of_tea_bush_years")
+    private String ageOfTeaBushYears;
 
     @Column(name = "arbitration")
     private String arbitration;
 
-    @Column(name = "arbitrationComment")
+    @Column(name = "arbitration_comment")
     private String arbitrationComment;
 
-    @Embedded
-    private Coordinates coordinates;
+    @Column(name = "latitude")
+    private Double latitude;
+
+    @Column(name = "longitude")
+    private Double longitude;
+
+    @Column(name = "date_green_leaf_agreement_signed")
+    private String dateGreenLeafAgreementSigned;
 
     @Column(name = "date_created")
-    private LocalDate date_created = LocalDate.now();
+    private java.sql.Date dateCreated;
+
+    @Column(name = "productivity_per_bush_year")
+    private String productivityPerBushYear;
+
+    @Column(name = "tea_cultivation_area_acres")
+    private String teaCultivationAreaAcres;
+
+    @Column(name = "total_land_area_acres")
+    private String totalLandAreaAcres;
+
+    @Column(name = "countyid")
+    private Long countyId;
+
+    @Column(name = "farming_typeid")
+    private Long farmingTypeId;
+
+    @Column(name = "payment_methodid")
+    private Long paymentMethodId;
+
+    @Column(name = "sub_countyid")
+    private Long subCountyId;
+
+    @Column(name = "tea_cultivarid")
+    private Long teaCultivarId;
+
+    @Column(name = "tea_varietyid")
+    private Long teaVarietyId;
+
+    @Column(name = "wardid")
+    private Long wardId;
+
+    // Getters and setters
 }

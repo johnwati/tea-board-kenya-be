@@ -24,7 +24,6 @@ public class Factory {
     @Column(name = "FactoryName")
     private String factoryName;
 
-    @OneToOne
-    @JoinColumn(name = "wardID")
-    private Ward ward;
+//    @Column(name = "wardID")
+//    private String ward;
 }

@@ -1,7 +1,8 @@
 package com.springbootmicroservices.advertisement.service.impl;
 
 import com.springbootmicroservices.advertisement.dto.TeaFarmingImportDTO;
-import com.springbootmicroservices.advertisement.entity.*;
+import com.springbootmicroservices.advertisement.entity.Grower;
+import com.springbootmicroservices.advertisement.entity.TeaFarmer;
 import com.springbootmicroservices.advertisement.repository.GrowerRepository;
 import com.springbootmicroservices.advertisement.repository.TeaFarmerRepository;
 import com.springbootmicroservices.advertisement.service.*;
@@ -14,8 +15,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -77,7 +78,10 @@ public class TeaFarmerServiceImpl implements TeaFarmerService {
         if (teaFarmerRepository.findByGrowerNumberIgnoreCase(teaFarmer.getGrowerNumber()).isEmpty()) {
             return teaFarmerRepository.save(fm);
         }else{
-           return teaFarmerRepository.findByGrowerNumberIgnoreCase(teaFarmer.getGrowerNumber()).get(0);
+            TeaFarmer farmer = teaFarmerRepository.findByGrowerNumberIgnoreCase(teaFarmer.getGrowerNumber()).get(0);
+            teaFarmer.setId(farmer.getId());
+            teaFarmerRepository.save(teaFarmer);
+            return farmer;
         }
     }
 
@@ -140,29 +144,29 @@ public class TeaFarmerServiceImpl implements TeaFarmerService {
         // Assuming you have separate methods to set relationships based on IDs
         logger.info("***************" + teaFarmer);
         // Set Region relationship
-        teaFarmer.setRegion(regionService.createOrUpdateRegion(importRequest.getRegionName()));
+        teaFarmer.setRegionId(importRequest.getRegionName());
         logger.debug(teaFarmer.toString());
         // Set County relationship
-        teaFarmer.setCounty(countyService.createOrUpdateCounty(importRequest.getCountyName(), teaFarmer.getRegion()));
+//        teaFarmer.setCounty(teaFarmer.setRegionId());
         log.info(teaFarmer.toString());
         // Set SubCounty relationship
-        teaFarmer.setSubCounty(subCountyService.createOrUpdateSubCounty(importRequest.getSubCountyName(), teaFarmer.getCounty()));
+        teaFarmer.setSubCounty(teaFarmer.getCounty());
         log.info(teaFarmer.toString());
         // Set Ward relationship
-        teaFarmer.setWard(wardService.createOrUpdateWard(importRequest.getWardName(), teaFarmer.getSubCounty()));
+//        teaFarmer.setWard(teaFarmer.getSubCounty());
         log.info(teaFarmer.toString());
         // Set Factory relationship
-        teaFarmer.setFactory(factoryService.createOrUpdateFactory(importRequest.getFactoryName(), teaFarmer.getWard()));
+        teaFarmer.setFactory(factoryService.getOrCreateFactory(importRequest.getFactoryName()).getFactoryId().toString());
         // Set TeaVariety relationship
-        teaFarmer.setTeaVariety(teaVarietyService.createOrUpdateTeaVariety(importRequest.getTeaVarietyName()));
+//        teaFarmer.setTeaVariety(importRequest.getTeaVarietyName());
         log.info(teaFarmer.toString());
         // Set TeaCultivar relationship
-        teaFarmer.setTeaCultivar(teaCultivarService.createOrUpdateTeaCultivar(importRequest.getTeaCultivarName()));
+//        teaFarmer.setTeaCultivar(importRequest.getTeaCultivarName());
         log.info(teaFarmer.toString());
         // Set FarmingType relationship
-        teaFarmer.setFarmingType(farmingTypeService.createOrUpdateFarmingType(importRequest.getFarmingTypeName()));
+//        teaFarmer.setFarmingType(importRequest.getFarmingTypeName());
         // Set PaymentMethod relationship
-        teaFarmer.setPaymentMethod(paymentMethodService.createOrUpdatePaymentMethod(importRequest.getPaymentMethodName()));
+        teaFarmer.setPaymentMethod(importRequest.getPaymentMethodName());
         log.info(teaFarmer.toString());
         // Set other relationships similarly
         logger.info("done setting relationship===============++++++++ " + teaFarmer);
@@ -176,29 +180,29 @@ private TeaFarmer dtoToFarmer(TeaFarmingImportDTO importRequest ){
     logger.info("===============++++++++ " + teaFarmer);
     logger.info("***************" + teaFarmer);
     // Set Region relationship
-    teaFarmer.setRegion(regionService.createOrUpdateRegion(importRequest.getRegionName()));
+//    teaFarmer.setRegion(importRequest.getRegionName());
     logger.debug(teaFarmer.toString());
     // Set County relationship
-    teaFarmer.setCounty(countyService.createOrUpdateCounty(importRequest.getCountyName(), teaFarmer.getRegion()));
+//    teaFarmer.setCounty(teaFarmer.getRegion());
     log.info(teaFarmer.toString());
     // Set SubCounty relationship
-    teaFarmer.setSubCounty(subCountyService.createOrUpdateSubCounty(importRequest.getSubCountyName(), teaFarmer.getCounty()));
+    teaFarmer.setSubCounty(teaFarmer.getCounty());
     log.info(teaFarmer.toString());
     // Set Ward relationship
-    teaFarmer.setWard(wardService.createOrUpdateWard(importRequest.getWardName(), teaFarmer.getSubCounty()));
+//    teaFarmer.setWard(teaFarmer.getSubCounty());
     log.info(teaFarmer.toString());
     // Set Factory relationship
-    teaFarmer.setFactory(factoryService.createOrUpdateFactory(importRequest.getFactoryName(), teaFarmer.getWard()));
+    teaFarmer.setFactory(factoryService.getOrCreateFactory(importRequest.getFactoryName()).getFactoryId().toString());
     // Set TeaVariety relationship
-    teaFarmer.setTeaVariety(teaVarietyService.createOrUpdateTeaVariety(importRequest.getTeaVarietyName()));
+//    teaFarmer.setTeaVariety(importRequest.getTeaVarietyName());
     log.info(teaFarmer.toString());
     // Set TeaCultivar relationship
-    teaFarmer.setTeaCultivar(teaCultivarService.createOrUpdateTeaCultivar(importRequest.getTeaCultivarName()));
+//    teaFarmer.setTeaCultivar(importRequest.getTeaCultivarName());
     log.info(teaFarmer.toString());
     // Set FarmingType relationship
-    teaFarmer.setFarmingType(farmingTypeService.createOrUpdateFarmingType(importRequest.getFarmingTypeName()));
+//    teaFarmer.setFarmingType(importRequest.getFarmingTypeName());
     // Set PaymentMethod relationship
-    teaFarmer.setPaymentMethod(paymentMethodService.createOrUpdatePaymentMethod(importRequest.getPaymentMethodName()));
+    teaFarmer.setPaymentMethod(importRequest.getPaymentMethodName());
     log.info(teaFarmer.toString());
     // Set other relationships similarly
     logger.info("done setting relationship===============++++++++ " + teaFarmer);
@@ -212,10 +216,10 @@ private TeaFarmer dtoToFarmer(TeaFarmingImportDTO importRequest ){
         teaFarmer.setGrowerNumber(importRequest.getGrowerNumber());
         teaFarmer.setGrowerName(importRequest.getGrowerName());
         teaFarmer.setBuyingCentre(importRequest.getBuyingCentre());
-        teaFarmer.setNationalId(importRequest.getNationalId());
+//        teaFarmer.setNationalId(importRequest.getNationalId());
         teaFarmer.setGrowerGroup(importRequest.getGrowerGroup());
         teaFarmer.setCompanyRegistrationCertificateNo(importRequest.getCompanyRegistrationCertificateNo());
-        teaFarmer.setCompanyPin(importRequest.getCompanyPin());
+//        teaFarmer.setCompanyPin(importRequest.getCompanyPin());
         teaFarmer.setGender(importRequest.getGender());
         teaFarmer.setEmail(importRequest.getEmail());
         teaFarmer.setTelNumber(importRequest.getTelNumber());
@@ -231,48 +235,48 @@ private TeaFarmer dtoToFarmer(TeaFarmingImportDTO importRequest ){
         teaFarmer.setMembershipInTeaAssociation(importRequest.getMembershipInTeaAssociation());
         teaFarmer.setTotalFertilizerPerYearAcre(importRequest.getTotalFertilizerPerYearAcre());
         teaFarmer.setAverageAnnualTeaProduction((importRequest.getAverageAnnualTeaProduction()));
-        teaFarmer.setDateGreenLeafAgreementSigned(importRequest.getDateGreenLeafAgreementSigned());
+//        teaFarmer.setDateGreenLeafAgreementSigned(importRequest.getDateGreenLeafAgreementSigned());
 //        teaFarmer.setCoordinates(importRequest.getCoordinates());
 
         return teaFarmer;
 
     }
 
-    private void setRelationships(TeaFarmer teaFarmer, TeaFarmingImportDTO importRequest) {
-
-        // Set relationships (e.g., Factory, Ward, SubCounty, etc.)
-        // Assuming you have separate methods to set relationships based on IDs
-        logger.info("***************" + teaFarmer.toString());
-        // Set Region relationship
-        teaFarmer.setRegion(regionService.createOrUpdateRegion(importRequest.getRegionName()));
-        logger.debug(teaFarmer.toString());
-        // Set County relationship
-        teaFarmer.setCounty(countyService.createOrUpdateCounty(importRequest.getCountyName(), teaFarmer.getRegion()));
-        log.info(teaFarmer.toString());
-        // Set SubCounty relationship
-        teaFarmer.setSubCounty(subCountyService.createOrUpdateSubCounty(importRequest.getSubCountyName(), teaFarmer.getCounty()));
-        log.info(teaFarmer.toString());
-        // Set Ward relationship
-        teaFarmer.setWard(wardService.createOrUpdateWard(importRequest.getWardName(), teaFarmer.getSubCounty()));
-        log.info(teaFarmer.toString());
-        // Set Factory relationship
-        teaFarmer.setFactory(factoryService.createOrUpdateFactory(importRequest.getFactoryName(), teaFarmer.getWard()));
-        // Set TeaVariety relationship
-        teaFarmer.setTeaVariety(teaVarietyService.createOrUpdateTeaVariety(importRequest.getTeaVarietyName()));
-        log.info(teaFarmer.toString());
-
-        // Set TeaCultivar relationship
-        teaFarmer.setTeaCultivar(teaCultivarService.createOrUpdateTeaCultivar(importRequest.getTeaCultivarName()));
-        log.info(teaFarmer.toString());
-        // Set FarmingType relationship
-        teaFarmer.setFarmingType(farmingTypeService.createOrUpdateFarmingType(importRequest.getFarmingTypeName()));
-
-        // Set PaymentMethod relationship
-        teaFarmer.setPaymentMethod(paymentMethodService.createOrUpdatePaymentMethod(importRequest.getPaymentMethodName()));
-        log.info(teaFarmer.toString());
-        // Set other relationships similarly
-
-    }
+//    private void setRelationships(TeaFarmer teaFarmer, TeaFarmingImportDTO importRequest) {
+//
+//        // Set relationships (e.g., Factory, Ward, SubCounty, etc.)
+//        // Assuming you have separate methods to set relationships based on IDs
+//        logger.info("***************" + teaFarmer.toString());
+//        // Set Region relationship
+//        teaFarmer.setRegion(teaFarmer.getRegion()));
+//        logger.debug(teaFarmer.toString());
+//        // Set County relationship
+//        teaFarmer.setCounty(countyService.createOrUpdateCounty(importRequest.getCountyName(), teaFarmer.getRegion()));
+//        log.info(teaFarmer.toString());
+//        // Set SubCounty relationship
+//        teaFarmer.setSubCounty(subCountyService.createOrUpdateSubCounty(importRequest.getSubCountyName(), teaFarmer.getCounty()));
+//        log.info(teaFarmer.toString());
+//        // Set Ward relationship
+//        teaFarmer.setWard(wardService.createOrUpdateWard(importRequest.getWardName(), teaFarmer.getSubCounty()));
+//        log.info(teaFarmer.toString());
+//        // Set Factory relationship
+//        teaFarmer.setFactory(factoryService.createOrUpdateFactory(importRequest.getFactoryName(), teaFarmer.getWard()));
+//        // Set TeaVariety relationship
+//        teaFarmer.setTeaVariety(teaVarietyService.createOrUpdateTeaVariety(importRequest.getTeaVarietyName()));
+//        log.info(teaFarmer.toString());
+//
+//        // Set TeaCultivar relationship
+//        teaFarmer.setTeaCultivar(teaCultivarService.createOrUpdateTeaCultivar(importRequest.getTeaCultivarName()));
+//        log.info(teaFarmer.toString());
+//        // Set FarmingType relationship
+//        teaFarmer.setFarmingType(farmingTypeService.createOrUpdateFarmingType(importRequest.getFarmingTypeName()));
+//
+//        // Set PaymentMethod relationship
+//        teaFarmer.setPaymentMethod(paymentMethodService.createOrUpdatePaymentMethod(importRequest.getPaymentMethodName()));
+//        log.info(teaFarmer.toString());
+//        // Set other relationships similarly
+//
+//    }
 
 @Override
     public void importData (MultipartFile file) throws IOException {
@@ -311,7 +315,7 @@ private TeaFarmer dtoToFarmer(TeaFarmingImportDTO importRequest ){
             // Check if the row is empty or contains only blank cells
 //        log.info("Processing Row Number {}",currentRow.getRowNum());
             if (!isRowEmpty(currentRow)) {
-                log.info("Processing Row Number {}",currentRow.getRowNum());
+                log.info("Processing Row Number 6 {}", currentRow.getRowNum());
                 Grower grower = new Grower();
     //            logger.info(getStringCellValue(currentRow.getCell(2)));
                 // Extract data from cells and create Grower objects
@@ -345,12 +349,13 @@ private TeaFarmer dtoToFarmer(TeaFarmingImportDTO importRequest ){
                 grower.setAverageAnnualTeaProductionKgPerAcre(getStringCellValue(currentRow.getCell(27)));
                 grower.setPaymentMethod(getStringCellValue(currentRow.getCell(28)));
                 grower.setDateGreenleafAgreementSigned(getStringCellValue(currentRow.getCell(29)));
-
+                logger.info("grower data {} ", grower);
                 Grower grower1 =  this.growerRepository.save(grower);
                 logger.info("Finished Saving grower with ID {} ", grower1.getId());
-                TeaFarmer teaFarmer = this.dtoToFarmer(this.mapGrowerToDTO2(grower));
-                logger.info("Converting tp GroverDTO---------- {}" ,teaFarmer.toString());
-               this.createTeaFarmer(teaFarmer);
+//                TeaFarmer teaFarmer = this.dtoToFarmer(this.mapGrowerToDTO2(grower));
+//                logger.info("Converting tp GroverDTO---------- {}" ,teaFarmer.toString());
+//                TeaFarmer farmer = this.createTeaFarmer(teaFarmer);
+//                log.info("************Done saving Tea Farmer record***** {}", farmer);
     //            logger.info(" grower {}" , grower);
     //            TeaFarmingImportDTO teaFarmingImportDTO = new TeaFarmingImportDTO().mapGrowerToDTO2(grower);
     //            logger.info(" Converting tp GroverDTO {}" , teaFarmingImportDTO.toString());
@@ -365,6 +370,41 @@ private TeaFarmer dtoToFarmer(TeaFarmingImportDTO importRequest ){
         }
     }
 
+    //    @Scheduled(fixedRate = 5000)
+
+    private void dataSynceFromStaging() {
+//        List<Grower> teaFarmers = this.growerRepository.findAll();
+//        log.info("Records found {}",(teaFarmers.size()));
+//
+//        teaFarmers.forEach((grower -> {
+//            logger.info("Saving Grower {}", grower.getGrowerNumber());
+//            TeaFarmer teaFarmer = this.dtoToFarmer(this.mapGrowerToDTO(grower));
+//            logger.info("Saving Grower Data{}", teaFarmer.toString());
+//            TeaFarmer farmer = this.createTeaFarmer(teaFarmer);
+//            log.info("************Done saving Tea Farmer record***** {}", farmer);
+//        }));
+        Sort sort = Sort.by(Sort.Direction.DESC, "id");
+        List<Grower> teaFarmers = this.growerRepository.findAll(sort);
+        logger.info("Records found {}", teaFarmers.size());
+
+        ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+
+        teaFarmers.forEach((grower) -> {
+            executor.execute(() -> {
+                logger.info("Saving Grower {}", grower.getGrowerNumber());
+                TeaFarmer teaFarmer = this.dtoToFarmer(this.mapGrowerToDTO(grower));
+                logger.info("Saving Grower Data {}", teaFarmer.toString());
+                TeaFarmer farmer = this.createTeaFarmer(teaFarmer);
+                logger.info("*******Done saving Tea Farmer record*****: {}", farmer);
+            });
+        });
+
+        executor.shutdown();
+        while (!executor.isTerminated()) {
+            // Wait for all threads to finish
+        }
+        logger.info("All threads completed.");
+    }
     private TeaFarmingImportDTO mapGrowerToDTO2(Grower grower) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         return TeaFarmingImportDTO.builder()
@@ -400,6 +440,43 @@ private TeaFarmer dtoToFarmer(TeaFarmingImportDTO importRequest ){
 //                .dateGreenLeafAgreementSigned(dateFormat.format(grower.getDateGreenleafAgreementSigned()))
                 .build();
     }
+
+    private TeaFarmingImportDTO mapGrowerToDTO(Grower grower) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        return TeaFarmingImportDTO.builder()
+                .growerNumber(grower.getGrowerNumber())
+                .growerName(grower.getGrowerName())
+                .buyingCentre(grower.getBuyingCentre())
+                .nationalId(grower.getNationalId())
+                .growerGroup(grower.getGrowerGroup())
+                .companyRegistrationCertificateNo(grower.getCompanyRegistrationCertificateNo())
+                .companyPin(grower.getCompanyPin())
+                .gender(grower.getGender())
+                .email(grower.getEmail())
+                .telNumber(grower.getTelNumber())
+                .landRegistrationNo(grower.getLandRegistrationNo())
+                .totalLandAreaAcres(String.valueOf(grower.getTotalLandAreaAcres()))
+                .factoryName(grower.getFactory())
+                .wardName(grower.getWardLocation())
+                .subCountyName(grower.getSubCounty())
+                .countyName(grower.getCounty())
+                .regionName(grower.getRegion())
+                .teaVarietiesCultivated(grower.getTeaVarietiesCultivated())
+                .teaCultivationAreaAcres(String.valueOf(grower.getTeaCultivationAreaAcres()))
+                .teaVarietyName(grower.getTeaVarietiesCultivated()) // Check if this field is intended
+                .teaCultivarName(grower.getTeaCultivars())
+                .totalTeaBushes(String.valueOf(grower.getTotalTeaBushes()))
+                .ageOfTeaBushYears(String.valueOf(grower.getAgeOfTeaBushYears()))
+                .productivityPerBushYear(String.valueOf(grower.getProductivityPerBushKgPerYear()))
+                .farmingTypeName(grower.getTypeOfFarming())
+                .membershipInTeaAssociation(grower.getMembershipInTeaAssociation())
+                .totalFertilizerPerYearAcre(String.valueOf(grower.getTotalFertilizerPerYearPerAcre()))
+                .averageAnnualTeaProduction(String.valueOf(grower.getAverageAnnualTeaProductionKgPerAcre()))
+                .paymentMethodName(grower.getPaymentMethod())
+//                .dateGreenLeafAgreementSigned(dateFormat.format(grower.getDateGreenleafAgreementSigned()))
+                .build();
+    }
+
 
 //    public TeaFarmingImportDTO mapGrowerToDTO(Grower grower) {
 //        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -585,18 +662,18 @@ private TeaFarmer dtoToFarmer(TeaFarmingImportDTO importRequest ){
     }
 
     private TeaFarmer ArbitrationChecks(TeaFarmer teaFarmer){
-        if (!teaFarmerRepository.findByNationalIdIgnoreCase(teaFarmer.getNationalId()).isEmpty()) {
-            teaFarmer.setArbitration("Duplicate Farmer");
-            teaFarmer.setArbitrationComment("Farmer with similar ID has been Found");
-        }
-
-        if (!teaFarmerRepository.findByNationalIdIgnoreCase(teaFarmer.getNationalId()).isEmpty()) {
-            TeaFarmer tf = teaFarmerRepository.findByNationalIdIgnoreCase(teaFarmer.getNationalId()).get(0);
-            if(tf.getFactory() != teaFarmer.getFactory()) {
-                teaFarmer.setArbitration("Multiple Factory Registration");
-                teaFarmer.setArbitrationComment("Farmer is Registered In More Than one Factory");
-            }
-        }
+//        if (!teaFarmerRepository.findByNationalIdIgnoreCase(teaFarmer.getNationalId()).isEmpty()) {
+//            teaFarmer.setArbitration("Duplicate Farmer");
+//            teaFarmer.setArbitrationComment("Farmer with similar ID has been Found");
+//        }
+//
+//        if (!teaFarmerRepository.findByNationalIdIgnoreCase(teaFarmer.getNationalId()).isEmpty()) {
+//            TeaFarmer tf = teaFarmerRepository.findByNationalIdIgnoreCase(teaFarmer.getNationalId()).get(0);
+//            if(tf.getFactory() != teaFarmer.getFactory()) {
+//                teaFarmer.setArbitration("Multiple Factory Registration");
+//                teaFarmer.setArbitrationComment("Farmer is Registered In More Than one Factory");
+//            }
+//        }
         return teaFarmer;
     }
 }

@@ -104,7 +104,7 @@ public class Grower {
     private String dateGreenleafAgreementSigned;
 
     @Column(name = "processed")
-    private boolean processed = false;
+    private Integer processed = 0;
 
 
 }

@@ -15,12 +15,12 @@ public interface FactoryRepository extends JpaRepository<Factory, Long> {
     List<Factory> findByFactoryNameContaining(String factoryName);
 
     Page<Factory> findByFactoryNameContaining(String factoryName, Pageable pageable);
-
-    Factory findFirstByFactoryNameContaining(String factoryName);
-
-    @Query(value = "SELECT f FROM Factory f WHERE f.factoryName = :factoryName")
-    Optional<Factory> findFirstByFactoryName(String factoryName);
-
-    @Query(value = "SELECT f FROM Factory f WHERE f.factoryName = :factoryName AND f.ward = :wardId")
-    List<Factory> findFirstByFactoryNameAndWardId(String factoryName, Ward wardId);
+//
+//    Factory findFirstByFactoryNameContaining(String factoryName);
+//
+//    @Query(value = "SELECT f FROM Factory f WHERE f.factoryName = :factoryName")
+//    Optional<Factory> findFirstByFactoryName(String factoryName);
+//
+//    @Query(value = "SELECT f FROM Factory f WHERE f.factoryName = :factoryName AND f.ward = :wardId")
+//    List<Factory> findFirstByFactoryNameAndWardId(String factoryName, String wardId);
 }
